@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/17 16:44:48 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:35:55 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static t_philo	*create_philo(t_control	*control, int number)
 	philo = memset(philo, 0, sizeof(t_philo));
 	philo->num = number;
 	philo->fork = 1;
-	if (pthread_create(philo->id, NULL, NULL, NULL))
-		control->error = "pthread error";
 	if (number % 2 == 0)
 		philo->status = THINKING;
 	else
@@ -44,9 +42,9 @@ t_control	*init_control(char **av)
 	control->time_to_eat = ft_itoa(av[3]);
 	control->time_to_sleep = ft_itoa(av[4]);
 	if (av[5])
-		control->eat_quantity = ft_itoa(av[1]);
+		control->eating_times = ft_itoa(av[1]);
 	else
-		control->eat_quantity = EAT_QUANTITY;
+		control->eating_times = -1;
 	return (control);
 }
 
@@ -75,4 +73,6 @@ t_philo	*init_philo(t_control *control)
 			temp = curr;
 		}
 	}
+	curr->next = head;
+	return (head);
 }
