@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:24:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/14 13:32:00 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/11/24 22:18:23 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	check_args(char **av)
 	int	i;
 	int	j;
 
-	i = -1;
-	j = -1;
+	i = 0;
 	while (av[++i])
 	{
+		j = -1;
 		while (av[i][++j])
 			if (!ft_isdigit(av[i][j]))
 				return (0);

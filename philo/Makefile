@@ -5,7 +5,10 @@ CFLAGS= -Wall -Wextra -Werror -Wpedantic -Iincludes -pthread
 
 SRC= \
 	main.c \
+	action.c \
+	notify.c \
 	memory.c \
+	philosophers.c \
 	errors.c \
 	utils.c \
 	struct.c \

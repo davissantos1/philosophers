@@ -6,13 +6,13 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/20 14:35:55 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/11/24 22:09:57 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static t_philo	*create_philo(t_control	*control, int number)
+static t_philo	*create_philo(t_control *con, int number)
 {
 	t_philo	*philo;
 
@@ -23,9 +23,10 @@ static t_philo	*create_philo(t_control	*control, int number)
 	philo->num = number;
 	philo->fork = 1;
 	if (number % 2 == 0)
-		philo->status = THINKING;
+		philo->action = THINKING;
 	else
-		philo->status = EATING;
+		philo->action = TAKING_FORK;
+	philo->control = con;
 	return (philo);
 }
 
@@ -37,12 +38,12 @@ t_control	*init_control(char **av)
 	if (!control)
 		return (NULL);
 	control = memset(control, 0, sizeof(t_control));
-	control->number_philo = ft_itoa(av[1]);
-	control->time_to_die = ft_itoa(av[2]);
-	control->time_to_eat = ft_itoa(av[3]);
-	control->time_to_sleep = ft_itoa(av[4]);
+	control->number_philo = ft_atoi(av[1]);
+	control->time_to_die = ft_atoi(av[2]);
+	control->time_to_eat = ft_atoi(av[3]);
+	control->time_to_sleep = ft_atoi(av[4]);
 	if (av[5])
-		control->eating_times = ft_itoa(av[1]);
+		control->eating_times = ft_atoi(av[1]);
 	else
 		control->eating_times = -1;
 	return (control);

@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/20 14:36:25 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/11/24 22:59:03 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,41 +29,44 @@ typedef enum e_error
 	ARG_AMOUNT_ERROR,
 	ARG_BLANK,
 	MEMORY_ERROR,
-	RACE_ERROR,
-	OTHER_ERROR
+	EXECUTION_ERROR
 }	t_error;
 
 typedef enum e_action
 {
-	TOOK_FORK,
+	TAKING_FORK,
 	EATING,
 	SLEEPING,
 	THINKING,
-	DIED
+	DYING
 }	t_action;
 
 // Structs
-typedef struct s_control
-{
-	t_philo	*head;
-	char	*error;
-	int		number_philo;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		eating_times;
-}	t_control;
-
 typedef struct s_philo
 {
-	t_action		action;
-	pthread_t		*id;
-	int				num;
-	int				fork;
-	int				meals;
-	struct s_philo	*next;
-	struct s_philo	*prev;
+	t_action			action;
+	pthread_t			*id;
+	int					num;
+	int					fork;
+	int					meals;
+	struct timeval		*lifetime;
+	struct s_control	*control;
+	struct s_philo		*next;
+	struct s_philo		*prev;
 }	t_philo;
+
+typedef struct s_control
+{
+	pthread_t		*checker;
+	t_philo			*head;
+	char			*error;
+	int				check;
+	int				number_philo;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				eating_times;
+}	t_control;
 
 //Prototypes
 t_control	*init_control(char **av);
@@ -78,5 +81,8 @@ void		*free_all(t_control *control);
 void		notify(t_philo *philo, t_control *control, t_action act);
 void		init_simulation(t_control *control);
 void		notify(t_philo *philo, t_control *control, t_action act);
+void		thinking(t_philo *philo);
+void		sleeping(t_philo *philo);
+void		taking_fork(t_philo *philo);
 
 #endif
