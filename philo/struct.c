@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/24 22:09:57 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/11/25 13:25:51 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ t_philo	*init_philo(t_control *control)
 		}
 	}
 	curr->next = head;
+	head->prev = curr;
 	return (head);
 }

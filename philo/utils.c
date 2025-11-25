@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:30:37 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/15 18:27:40 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/11/25 13:49:13 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,15 @@ void	ft_putstr_fd(char *str, int fd)
 int	ft_atoi(char *str)
 {
 	int	result;
-	int	index;
+	int	i;
 
+	i = -1;
 	result = 0;
-	index = -1;
-	while (str[++index])
+	while (str[++i])
 	{
-		if (ft_isdigit(str[index]))
-			result = result * 10 + (str[index] - 0);
-		else
-			break ;
-	}	
+		if (!ft_isdigit(str[i]))
+			return (0);
+		result = result * 10 + (str[i] - '0');
+	}
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/24 22:59:03 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/11/25 12:58:24 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ typedef enum e_action
 // Structs
 typedef struct s_philo
 {
+	pthread_t			id;
 	t_action			action;
-	pthread_t			*id;
 	int					num;
 	int					fork;
 	int					meals;
-	struct timeval		*lifetime;
+	struct timeval		lifetime;
 	struct s_control	*control;
 	struct s_philo		*next;
 	struct s_philo		*prev;
@@ -57,7 +57,7 @@ typedef struct s_philo
 
 typedef struct s_control
 {
-	pthread_t		*checker;
+	pthread_t		checker;
 	t_philo			*head;
 	char			*error;
 	int				check;
@@ -79,7 +79,7 @@ int			ft_strlen(char *str);
 int			error(int type);
 void		*free_all(t_control *control);
 void		notify(t_philo *philo, t_control *control, t_action act);
-void		init_simulation(t_control *control);
+void		init_simulation(t_control *con);
 void		notify(t_philo *philo, t_control *control, t_action act);
 void		thinking(t_philo *philo);
 void		sleeping(t_philo *philo);
