@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/25 13:25:51 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/04 03:54:44 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ static t_philo	*create_philo(t_control *con, int number)
 		return (NULL);
 	philo = memset(philo, 0, sizeof(t_philo));
 	philo->num = number;
-	philo->fork = 1;
 	if (number % 2 == 0)
-		philo->action = THINKING;
+		philo->action = SLEEPING;
 	else
 		philo->action = TAKING_FORK;
 	philo->control = con;

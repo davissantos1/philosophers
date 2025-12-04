@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/25 15:43:35 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/04 03:52:17 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	act_decide(t_philo *philo)
 		thinking(philo);
 	if (gettimeofday(&now, NULL) == -1)
 		philo->control->error = "gettimeofday error";
-	time = (now.tv_sec / 1000) - (philo->lifetime.tv_sec / 1000); 
+	time = (now.tv_sec / 1000) - (philo->life_time.tv_sec / 1000); 
 	if (time >= philo->control->time_to_die)
 	{
 		philo->action = DYING;
@@ -39,9 +39,9 @@ void	*act_philo(void *ptr)
 	t_philo				*philo;
 
 	philo = (t_philo *) ptr;
-	if (!philo->lifetime.tv_sec)
+	if (!philo->life_time.tv_sec)
 	{
-		if (gettimeofday(&(philo->lifetime), NULL) == -1)
+		if (gettimeofday(&(philo->life_time), NULL) == -1)
 			philo->control->error = "gettimeofday error";
 	}
 	while (act_decide(philo))
