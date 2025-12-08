@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:30:37 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/25 13:49:13 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/08 14:04:10 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,18 @@ void	ft_putstr_fd(char *str, int fd)
 
 int	ft_atoi(char *str)
 {
-	int	result;
-	int	i;
+	long	result;
+	int		i;
 
 	i = -1;
 	result = 0;
 	while (str[++i])
 	{
 		if (!ft_isdigit(str[i]))
-			return (0);
+			return (-1);
 		result = result * 10 + (str[i] - '0');
 	}
-	return (result);
+	if (result > MAX_INT)
+		return (-1);
+	return ((int)result);
 }

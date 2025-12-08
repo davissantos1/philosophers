@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/04 03:10:23 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/08 14:12:09 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@
 # include <pthread.h>
 # include <sys/time.h>
 
+// Macros
+# define MAX_INT 2147483647
+
 // Enums
 typedef enum e_error
 {
 	NO_ERROR,
-	ARG_TYPE_ERROR,
+	ARG_NUM_ERROR,
 	ARG_AMOUNT_ERROR,
 	ARG_BLANK,
 	MEMORY_ERROR,

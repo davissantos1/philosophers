@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:58:07 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/11/24 22:14:10 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/08 14:12:31 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	main(int ac, char **av)
 {
 	t_control	*control;
-	
+
 	if (ac == 5 || ac == 6)
 	{
 		if (!check_args(av))
-			return (error(ARG_TYPE_ERROR));
+			return (error(ARG_NUM_ERROR));
 		control = init_control(av);
 		if (!control)
 			return (error(MEMORY_ERROR));
