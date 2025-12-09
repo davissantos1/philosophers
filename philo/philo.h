@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/08 14:12:09 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:15:21 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ typedef struct s_philo
 	int					lfork;
 	int					rfork;
 	int					meals;
-	struct timeval		last_action;
-	struct timeval		life_time;
+	long				life_time;
+	long				last_action;
 	struct s_control	*control;
 	struct s_philo		*next;
 	struct s_philo		*prev;
@@ -66,11 +66,13 @@ typedef struct s_control
 	t_philo			*head;
 	char			*error;
 	int				check;
+	long			start_time;
 	int				number_philo;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				eating_times;
+	pthread_mutex_t	print_lock;
 }	t_control;
 
 //Prototypes
@@ -89,5 +91,6 @@ void		notify(t_philo *philo, t_control *control, t_action act);
 void		thinking(t_philo *philo);
 void		sleeping(t_philo *philo);
 void		taking_fork(t_philo *philo);
+long		get_time(t_control *control);
 
 #endif

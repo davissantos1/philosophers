@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 16:53:57 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/04 03:36:37 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:07:41 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ static void	eating(t_philo *philo)
 		count = 0;
 	}
 	notify(philo, philo->control, EATING);
-	usleep(philo->control->eating_times);
-	if (gettimeofday(&(philo->life_time), NULL) == -1)
-		philo->control->error = "gettimeofday error";
+	usleep(philo->control->time_to_eat);
+	philo->life_time = get_time(philo->control);
 	pthread_mutex_init(&mutex, NULL);
 	pthread_mutex_lock(&mutex);
 	philo->prev->rfork++;
@@ -41,17 +40,23 @@ void	taking_fork(t_philo *philo)
 	pthread_mutex_t		mutex;
 
 	pthread_mutex_init(&mutex, NULL);
-	pthread_mutex_lock(&mutex);
-	philo->rfork++;
-	pthread_mutex_unlock(&mutex);
-	notify(philo, philo->control, TAKING_FORK);
-	pthread_mutex_lock(&mutex);
-	philo->prev->rfork--;
-	philo->lfork++;
-	pthread_mutex_unlock(&mutex);
+	if (!philo->rfork)
+	{
+		pthread_mutex_lock(&mutex);
+		philo->rfork++;
+		pthread_mutex_unlock(&mutex);
+		notify(philo, philo->control, TAKING_FORK);
+	}
+	if (philo->rfork && philo->prev)
+	{
+		pthread_mutex_lock(&mutex);
+		philo->prev->rfork--;
+		philo->lfork++;
+		pthread_mutex_unlock(&mutex);
+		notify(philo, philo->control, TAKING_FORK);
+		eating(philo);
+	}
 	pthread_mutex_destroy(&mutex);
-	notify(philo, philo->control, TAKING_FORK);
-	eating(philo);
 }
 
 

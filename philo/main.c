@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:58:07 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/08 14:12:31 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/09 11:05:18 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av)
 
 	if (ac == 5 || ac == 6)
 	{
-		if (!check_args(av))
+		if (!check_args(av) || ft_atoi(av[1]) == 0)
 			return (error(ARG_NUM_ERROR));
 		control = init_control(av);
 		if (!control)

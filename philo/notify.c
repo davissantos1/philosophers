@@ -6,23 +6,15 @@
 /*   By: dasimoes <dasimoes@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:00:09 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/04 03:40:18 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:19:29 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	notify(t_philo *philo, t_control *control, t_action act)
+static void	print_message(int num, int time, t_action act)
 {
-	int				time;
-	int				diff;
-	struct timeval	curr;
-
-	time = gettimeofday(&curr, NULL);
-	if (!philo->last_action.tv_sec)
-		philo->last_action = curr;
-	diff = curr.tv_sec * 1000 - philo->last_action.tv_sec * 1000;
-	printf("\n%i %i ", diff, philo->num);
+	printf("\n%i %i ", time, num);
 	if (act == EATING)
 		printf("is eating");
 	else if (act == THINKING)
@@ -33,8 +25,15 @@ void	notify(t_philo *philo, t_control *control, t_action act)
 		printf("has taken a fork");
 	else if (act == DYING)
 		printf("died");
-	philo->action = act;
-	philo->last_action = curr;
-	if (time == -1)
-		control->error = "gettimeofday error";
+}
+
+void	notify(t_philo *philo, t_control *control, t_action act)
+{
+	long			time;
+
+	pthread_mutex_lock(&control->print_lock);
+	philo->last_action = get_time(control);
+	time = philo->last_action - control->start_time;
+	print_message(philo->num, time, act);
+	pthread_mutex_unlock(&control->print_lock);
 }

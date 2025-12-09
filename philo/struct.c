@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/04 03:54:44 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:20:26 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_control	*init_control(char **av)
 		control->eating_times = ft_atoi(av[1]);
 	else
 		control->eating_times = -1;
+	pthread_mutex_init(&control->print_lock, NULL);
 	return (control);
 }
 
@@ -55,23 +56,19 @@ t_philo	*init_philo(t_control *control)
 	t_philo	*temp;
 	int		index;
 
-	index = 0;
+	index = 1;
+	head = create_philo(control, index);
+	if (control->number_philo == 1)
+		return (head);
+	curr = create_philo(control, ++index);
+	head->next = curr;
+	curr->prev = head;
 	while (++index <= control->number_philo)
 	{
-		if (index == 1)
-		{
-			head = create_philo(control, index);
-			temp = create_philo(control, ++index);
-			head->next = temp;
-			temp->prev = head;
-		}
-		else
-		{
+			temp = curr;
 			curr = create_philo(control, index);
 			curr->prev = temp;
 			temp->next = curr;
-			temp = curr;
-		}
 	}
 	curr->next = head;
 	head->prev = curr;
