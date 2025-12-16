@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/16 15:08:11 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/16 16:33:18 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,19 @@ void	*init_checker(void *control)
 	con = (t_control *) control;
 	cur = con->head;
 	eat_count = 0;
-	while (1)
+	while (!con->check)
 	{
 		pthread_mutex_lock(&con->status_lock);
 		if (cur->action == DYING || eat_count == con->number_philo)
-		{
 			con->check = 1;
-			if (cur->action == DYING)
-				notify(cur, con, DYING);
-			break ;
-		}
 		if (cur->meals == con->eating_times)
+		{
 			eat_count++;
+			cur->meals++;
+		}
 		pthread_mutex_unlock(&con->status_lock);
+		if (cur->action == DYING)
+			notify(cur, con, DYING);
 		if (cur->next)
 			cur = cur->next;
 	}
