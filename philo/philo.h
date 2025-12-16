@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/09 18:15:21 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/15 15:08:17 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ typedef struct s_philo
 	pthread_t			id;
 	t_action			action;
 	int					num;
-	int					lfork;
-	int					rfork;
 	int					meals;
 	long				life_time;
 	long				last_action;
 	struct s_control	*control;
 	struct s_philo		*next;
 	struct s_philo		*prev;
+	pthread_mutex_t		fork;
 }	t_philo;
 
 typedef struct s_control

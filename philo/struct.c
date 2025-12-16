@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/09 18:20:26 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/15 15:09:19 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static t_philo	*create_philo(t_control *con, int number)
 	else
 		philo->action = TAKING_FORK;
 	philo->control = con;
+	pthread_mutex_init(&philo->fork, NULL);
 	return (philo);
 }
 
