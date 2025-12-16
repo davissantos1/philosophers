@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/15 15:08:17 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/16 14:56:37 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ typedef struct s_control
 	int				time_to_sleep;
 	int				eating_times;
 	pthread_mutex_t	print_lock;
+	pthread_mutex_t	status_lock;
+	pthread_mutex_t	eating_lock;
 }	t_control;
 
 //Prototypes

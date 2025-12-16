@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/15 15:11:12 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/16 15:08:11 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	act_decide(t_philo *philo)
 		philo->action = DYING;
 		return (0);
 	}
+	if (philo->control->check)
+		return (0); 
 	return (1);
 }
 
@@ -45,30 +47,29 @@ void	*act_philo(void *ptr)
 
 void	*init_checker(void *control)
 {
-	pthread_mutex_t		mutex;
+	int					eat_count;
 	t_control			*con;
 	t_philo				*cur;
 
 	con = (t_control *) control;
 	cur = con->head;
-	pthread_mutex_init(&mutex, NULL);
+	eat_count = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&mutex);
-		if (cur->action == DYING || con->eating_times == 0)
+		pthread_mutex_lock(&con->status_lock);
+		if (cur->action == DYING || eat_count == con->number_philo)
 		{
 			con->check = 1;
 			if (cur->action == DYING)
 				notify(cur, con, DYING);
 			break ;
 		}
+		if (cur->meals == con->eating_times)
+			eat_count++;
+		pthread_mutex_unlock(&con->status_lock);
 		if (cur->next)
 			cur = cur->next;
-		pthread_mutex_unlock(&mutex);
-		if (cur->next == con->head)
-			usleep(5000);
 	}
-	pthread_mutex_destroy(&mutex);
 	return (NULL);
 }
 

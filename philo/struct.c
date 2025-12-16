@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/15 15:09:19 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/16 14:23:07 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,12 @@ t_control	*init_control(char **av)
 	control->time_to_eat = ft_atoi(av[3]);
 	control->time_to_sleep = ft_atoi(av[4]);
 	if (av[5])
-		control->eating_times = ft_atoi(av[1]);
+		control->eating_times = ft_atoi(av[1]) * control->number_philo;
 	else
 		control->eating_times = -1;
 	pthread_mutex_init(&control->print_lock, NULL);
+	pthread_mutex_init(&control->status_lock, NULL);
+	pthread_mutex_init(&control->eating_lock, NULL);
 	return (control);
 }
 
