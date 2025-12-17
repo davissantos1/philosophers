@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:00:09 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/17 13:48:38 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:16:47 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	notify(t_philo *philo, t_control *control, t_action act)
 	pthread_mutex_lock(&control->print_lock);
 	philo->last_action = get_time(control);
 	time = philo->last_action - control->start_time;
-	if (!control->check)
+	if (!control->check || act == DYING)
 		print_message(philo->num, time, act);
 	pthread_mutex_unlock(&control->print_lock);
 }

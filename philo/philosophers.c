@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/17 17:40:05 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:29:50 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,28 @@ void	*init_checker(void *control)
 	con = (t_control *) control;
 	cur = con->head;
 	eat_count = 0;
-	while (!con->check && cur)
+	while (!con->check)
 	{
-		pthread_mutex_lock(&con->status_lock);
-		if (get_time(con) - cur->life_time >= con->time_to_die)
+		while (cur && !con->check)
 		{
-			cur->action = DYING;
-			notify(cur, con, DYING);
+			pthread_mutex_lock(&con->status_lock);
+			if (get_time(con) - cur->life_time >= con->time_to_die)
+				cur->action = DYING;
+			if (cur->action == DYING || eat_count == con->number_philo)
+				con->check = 1;
+			if (cur->meals == con->eating_times)
+			{
+				eat_count++;
+				cur->meals++;
+			}
+			pthread_mutex_unlock(&con->status_lock);
+			if (cur->action == DYING)
+				notify(cur, con, DYING);
+			cur = cur->next;
+			if (cur == con->head)
+				break ;
 		}
-		if (cur->action == DYING || eat_count == con->number_philo)
-			con->check = 1;
-		if (cur->meals == con->eating_times)
-		{
-			eat_count++;
-			cur->meals++;
-		}
-		pthread_mutex_unlock(&con->status_lock);
-		cur = cur->next;
-		usleep(100);
+		usleep(1000);
 	}
 	return (NULL);
 }
