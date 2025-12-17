@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/16 16:33:18 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:40:05 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,19 @@
 
 int	act_decide(t_philo *philo)
 {
-	long	now;
-
 	if (philo->action == TAKING_FORK)
 		taking_fork(philo);
 	else if (philo->action == SLEEPING)
 		sleeping(philo);
 	else if (philo->action == THINKING)
 		thinking(philo);
-	now = get_time(philo->control);
-	if (now - philo->life_time >= philo->control->time_to_die)
-	{
-		philo->action = DYING;
-		return (0);
-	}
+	pthread_mutex_lock(&philo->control->status_lock);
 	if (philo->control->check)
+	{
+		pthread_mutex_unlock(&philo->control->status_lock);
 		return (0); 
+	}
+	pthread_mutex_unlock(&philo->control->status_lock);
 	return (1);
 }
 
@@ -54,9 +51,14 @@ void	*init_checker(void *control)
 	con = (t_control *) control;
 	cur = con->head;
 	eat_count = 0;
-	while (!con->check)
+	while (!con->check && cur)
 	{
 		pthread_mutex_lock(&con->status_lock);
+		if (get_time(con) - cur->life_time >= con->time_to_die)
+		{
+			cur->action = DYING;
+			notify(cur, con, DYING);
+		}
 		if (cur->action == DYING || eat_count == con->number_philo)
 			con->check = 1;
 		if (cur->meals == con->eating_times)
@@ -65,22 +67,14 @@ void	*init_checker(void *control)
 			cur->meals++;
 		}
 		pthread_mutex_unlock(&con->status_lock);
-		if (cur->action == DYING)
-			notify(cur, con, DYING);
-		if (cur->next)
-			cur = cur->next;
+		cur = cur->next;
+		usleep(100);
 	}
 	return (NULL);
 }
 
-void	init_simulation(t_control *con)
+static void init_threads(t_philo *cur, t_control *con)
 {
-	t_philo		*cur;
-
-	cur = con->head;
-	if (pthread_create(&(con->checker), NULL, init_checker, (void *)con))
-		con->error = "pthread_create error";
-	con->start_time = get_time(con);
 	while (cur && !con->check)
 	{
 		if (pthread_create(&(cur->id), NULL, act_philo, (void *)cur))
@@ -89,8 +83,26 @@ void	init_simulation(t_control *con)
 		if (cur == con->head)
 			break ;
 	}
+	if (pthread_create(&(con->checker), NULL, init_checker, (void *)con))
+		con->error = "pthread_create error";
+}
+
+void	init_simulation(t_control *con)
+{
+	t_philo		*cur;
+
 	cur = con->head;
-	while (cur && cur->next != con->head)
+	con->start_time = get_time(con);
+	while (cur)
+	{
+		cur->life_time = get_time(con);
+		cur = cur->next;
+		if (cur == con->head)
+			break ;
+	}
+	cur = con->head;
+	init_threads(cur, con);
+	while (cur)
 	{
 		if (pthread_join(cur->id, NULL))
 			con->error = "pthread_join error";

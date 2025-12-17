@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 16:53:57 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/16 19:22:29 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/17 13:59:32 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	eating(t_philo *philo)
 	philo->meals++;
 	pthread_mutex_unlock(&philo->control->status_lock);
 	notify(philo, philo->control, EATING);
-	usleep(philo->control->time_to_eat);
+	usleep(philo->control->time_to_eat * 1000);
 	philo->action = SLEEPING;
 }
 
@@ -59,13 +59,13 @@ void	taking_fork(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	notify(philo, philo->control, SLEEPING);
-	usleep(philo->control->time_to_sleep);
+	usleep(philo->control->time_to_sleep * 1000);
 	philo->action = THINKING;
 
 }
 void	thinking(t_philo *philo)
 {
 	notify(philo, philo->control, THINKING);
-	usleep(200);
+	usleep(1000);
 	philo->action = TAKING_FORK;
 }
