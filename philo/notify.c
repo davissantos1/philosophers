@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:00:09 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 12:26:29 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:46:02 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	notify(t_philo *philo, t_control *control, t_action act)
 	long	time;
 	int		end;
 
-	pthread_mutex_lock(&control->status_lock);
+	pthread_mutex_lock(&control->check_lock);
 	end = control->check;
-	pthread_mutex_unlock(&control->status_lock);
+	pthread_mutex_unlock(&control->check_lock);
 	pthread_mutex_lock(&control->print_lock);
 	philo->last_action = get_time(control);
 	time = philo->last_action - control->start_time;

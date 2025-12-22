@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 13:07:30 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 18:11:19 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_philo
 	struct s_philo		*next;
 	struct s_philo		*prev;
 	pthread_mutex_t		fork;
+	pthread_mutex_t		action_lock;
 }	t_philo;
 
 typedef struct s_control
@@ -72,8 +73,8 @@ typedef struct s_control
 	int				time_to_sleep;
 	int				eating_times;
 	pthread_mutex_t	print_lock;
-	pthread_mutex_t	status_lock;
-	pthread_mutex_t	eating_lock;
+	pthread_mutex_t	check_lock;
+	pthread_mutex_t	meal_lock;
 }	t_control;
 
 //Prototypes

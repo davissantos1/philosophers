@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/17 13:26:56 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 18:12:00 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_philo	*create_philo(t_control *con, int number)
 		philo->action = TAKING_FORK;
 	philo->control = con;
 	pthread_mutex_init(&philo->fork, NULL);
+	pthread_mutex_init(&philo->action_lock, NULL);
 	return (philo);
 }
 
@@ -47,8 +48,8 @@ t_control	*init_control(char **av)
 	else
 		control->eating_times = -1;
 	pthread_mutex_init(&control->print_lock, NULL);
-	pthread_mutex_init(&control->status_lock, NULL);
-	pthread_mutex_init(&control->eating_lock, NULL);
+	pthread_mutex_init(&control->meal_lock, NULL);
+	pthread_mutex_init(&control->check_lock, NULL);
 	return (control);
 }
 

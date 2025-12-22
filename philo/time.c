@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 13:05:52 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 13:32:34 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 17:52:54 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	ft_usleep(long time_in_ms, t_control *control)
 	start_time = get_time(control);
 	while ((get_time(control) - start_time) < time_in_ms)
 	{
-		pthread_mutex_lock(&control->status_lock);
+		pthread_mutex_lock(&control->check_lock);
 		if (control->check)
 		{
-			pthread_mutex_unlock(&control->status_lock);
+			pthread_mutex_unlock(&control->check_lock);
 			return ; 
 		}
-		pthread_mutex_unlock(&control->status_lock);
-		usleep(2000); 	
+		pthread_mutex_unlock(&control->check_lock);
+		usleep(1000); 	
 	}
 }
 

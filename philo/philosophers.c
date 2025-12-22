@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 13:51:42 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 19:52:50 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,24 @@
 
 int	act_decide(t_philo *philo)
 {
+	t_control *con;
+
+	con = philo->control;
+	if (get_time(con) - philo->life_time >= con->time_to_die)
+		philo->action = DYING;
 	if (philo->action == TAKING_FORK)
 		taking_fork(philo);
 	else if (philo->action == SLEEPING)
 		sleeping(philo);
 	else if (philo->action == THINKING)
 		thinking(philo);
-	pthread_mutex_lock(&philo->control->status_lock);
+	pthread_mutex_lock(&philo->control->check_lock);
 	if (philo->control->check)
 	{
-		pthread_mutex_unlock(&philo->control->status_lock);
+		pthread_mutex_unlock(&philo->control->check_lock);
 		return (0); 
 	}
-	pthread_mutex_unlock(&philo->control->status_lock);
+	pthread_mutex_unlock(&philo->control->check_lock);
 	return (1);
 }
 
@@ -46,30 +51,23 @@ void	*act_philo(void *ptr)
 
 void	*init_checker(void *control)
 {
-	int					eat_count;
 	t_control			*con;
 	t_philo				*cur;
 
 	con = (t_control *) control;
 	cur = con->head;
-	eat_count = 0;
 	while (!con->check)
 	{
 		while (cur && !con->check)
 		{
-			pthread_mutex_lock(&con->status_lock);
-			if (get_time(con) - cur->life_time >= con->time_to_die)
-				cur->action = DYING;
-			if (cur->action == DYING || eat_count == con->number_philo)
+			pthread_mutex_lock(&con->check_lock);
+			pthread_mutex_lock(&cur->action_lock);
+			if (cur->action == DYING)
 				con->check = 1;
-			if (cur->meals == con->eating_times)
-			{
-				eat_count++;
-				cur->meals++;
-			}
-			pthread_mutex_unlock(&con->status_lock);
 			if (cur->action == DYING)
 				notify(cur, con, DYING);
+			pthread_mutex_unlock(&cur->action_lock);
+			pthread_mutex_unlock(&con->check_lock);
 			usleep(100);
 			cur = cur->next;
 			if (cur == con->head)
