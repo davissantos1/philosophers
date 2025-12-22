@@ -6,7 +6,7 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/16 14:56:37 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:07:30 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ void		thinking(t_philo *philo);
 void		sleeping(t_philo *philo);
 void		taking_fork(t_philo *philo);
 long		get_time(t_control *control);
+void		ft_usleep(long time_in_ms, t_control *control);
 
 #endif

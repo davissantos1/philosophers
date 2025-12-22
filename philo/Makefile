@@ -11,6 +11,7 @@ SRC= \
 	philosophers.c \
 	errors.c \
 	utils.c \
+	time.c \
 	struct.c \
 	check.c 
 

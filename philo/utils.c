@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:30:37 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/09 18:07:53 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:06:20 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,6 @@ int	ft_strlen(char *str)
 void	ft_putstr_fd(char *str, int fd)
 {
 	write(fd, str, ft_strlen(str));
-}
-
-long	get_time(t_control *control)
-{
-	struct timeval time;
-
-	if (gettimeofday(&time, NULL) == -1)
-		control->error = "gettimeofday error";
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 int	ft_atoi(char *str)

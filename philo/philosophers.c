@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/17 18:29:50 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:51:42 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	*act_philo(void *ptr)
 	philo = (t_philo *) ptr;
 	if (!philo->life_time)
 		philo->life_time = get_time(philo->control);
+	if (philo->num % 2 == 0)
+		ft_usleep(philo->control->time_to_eat / 2, philo->control);
 	while (act_decide(philo))
 		;
 	return (NULL);
@@ -68,6 +70,7 @@ void	*init_checker(void *control)
 			pthread_mutex_unlock(&con->status_lock);
 			if (cur->action == DYING)
 				notify(cur, con, DYING);
+			usleep(100);
 			cur = cur->next;
 			if (cur == con->head)
 				break ;
@@ -97,14 +100,6 @@ void	init_simulation(t_control *con)
 
 	cur = con->head;
 	con->start_time = get_time(con);
-	while (cur)
-	{
-		cur->life_time = get_time(con);
-		cur = cur->next;
-		if (cur == con->head)
-			break ;
-	}
-	cur = con->head;
 	init_threads(cur, con);
 	while (cur)
 	{

@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 16:53:57 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/17 13:59:32 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 13:11:41 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	eating(t_philo *philo)
 	philo->meals++;
 	pthread_mutex_unlock(&philo->control->status_lock);
 	notify(philo, philo->control, EATING);
-	usleep(philo->control->time_to_eat * 1000);
+	ft_usleep(philo->control->time_to_eat, philo->control);
 	philo->action = SLEEPING;
 }
 
@@ -34,7 +34,7 @@ void	taking_fork(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->fork);
 		notify(philo, philo->control, TAKING_FORK);
-		usleep(philo->control->time_to_die * 1000);
+		ft_usleep(philo->control->time_to_die, philo->control);
 		pthread_mutex_unlock(&philo->fork);
 		return ;
 	}
@@ -59,13 +59,25 @@ void	taking_fork(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	notify(philo, philo->control, SLEEPING);
-	usleep(philo->control->time_to_sleep * 1000);
+	ft_usleep(philo->control->time_to_sleep, philo->control);
 	philo->action = THINKING;
 
 }
+
 void	thinking(t_philo *philo)
 {
+	long	t_eat;
+	long	t_sleep;
+	long	t_think;
+
+	t_eat = philo->control->time_to_eat;
+	t_sleep = philo->control->time_to_sleep;
+	t_think = 0;
+	if (t_eat > t_sleep)
+		t_think = (t_eat - t_sleep);
+	if (t_think < 5)
+		t_think = 5;
 	notify(philo, philo->control, THINKING);
-	usleep(1000);
+	ft_usleep(t_think, philo->control);
 	philo->action = TAKING_FORK;
 }
