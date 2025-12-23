@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 21:59:35 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 23:20:52 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ int	act_decide(t_philo *philo)
 	t_control	*con;
 
 	con = philo->control;
+	
+	pthread_mutex_lock(&philo->action_lock);
 	if (get_time(con) - philo->life_time >= con->time_to_die)
 		philo->action = DYING;
+	pthread_mutex_unlock(&philo->action_lock);
 	if (philo->action == TAKING_FORK)
 		taking_fork(philo);
 	else if (philo->action == SLEEPING)
@@ -63,6 +66,7 @@ void	*init_checker(void *control)
 	cur = con->head;
 	while (!con->check)
 	{
+		cur = con->head;
 		while (cur && !con->check)
 		{
 			pthread_mutex_lock(&con->check_lock);

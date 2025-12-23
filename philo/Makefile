@@ -39,7 +39,7 @@ $(NAME): $(OBJ)
 	@echo "🛠️  ${BLUE}Compiling:${RESET} $< to $@"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-debug: CFLAGS += -g3 -o0 -fsanitize=thread 
+debug: CFLAGS += -g3 -o0 -fsanitize=thread
 debug: re
 	@echo "⚠️  ${RED}Compilation mode:${RESET} debug"
 
