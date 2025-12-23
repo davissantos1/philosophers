@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 19:52:50 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:59:35 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	act_decide(t_philo *philo)
 {
-	t_control *con;
+	t_control	*con;
 
 	con = philo->control;
 	if (get_time(con) - philo->life_time >= con->time_to_die)
@@ -25,11 +25,16 @@ int	act_decide(t_philo *philo)
 		sleeping(philo);
 	else if (philo->action == THINKING)
 		thinking(philo);
+	if (!philo->full && philo->meals == philo->control->eating_times)
+	{
+		philo->full = 1;
+		philo->control->full_philo++;
+	}
 	pthread_mutex_lock(&philo->control->check_lock);
 	if (philo->control->check)
 	{
 		pthread_mutex_unlock(&philo->control->check_lock);
-		return (0); 
+		return (0);
 	}
 	pthread_mutex_unlock(&philo->control->check_lock);
 	return (1);
@@ -62,7 +67,7 @@ void	*init_checker(void *control)
 		{
 			pthread_mutex_lock(&con->check_lock);
 			pthread_mutex_lock(&cur->action_lock);
-			if (cur->action == DYING)
+			if (cur->action == DYING || con->full_philo == con->number_philo)
 				con->check = 1;
 			if (cur->action == DYING)
 				notify(cur, con, DYING);
@@ -78,7 +83,7 @@ void	*init_checker(void *control)
 	return (NULL);
 }
 
-static void init_threads(t_philo *cur, t_control *con)
+static void	init_threads(t_philo *cur, t_control *con)
 {
 	while (cur && !con->check)
 	{

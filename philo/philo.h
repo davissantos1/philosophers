@@ -6,12 +6,12 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:50:49 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 18:11:19 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 22:02:15 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-#define PHILO_H
+# define PHILO_H
 
 // External includes
 # include <stdlib.h>
@@ -51,6 +51,7 @@ typedef struct s_philo
 	t_action			action;
 	int					num;
 	int					meals;
+	int					full;
 	long				life_time;
 	long				last_action;
 	struct s_control	*control;
@@ -67,6 +68,7 @@ typedef struct s_control
 	char			*error;
 	int				check;
 	long			start_time;
+	int				full_philo;
 	int				number_philo;
 	int				time_to_die;
 	int				time_to_eat;
@@ -74,7 +76,6 @@ typedef struct s_control
 	int				eating_times;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	check_lock;
-	pthread_mutex_t	meal_lock;
 }	t_control;
 
 //Prototypes

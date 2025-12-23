@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 16:46:02 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 18:12:37 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 21:58:55 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ void	*free_all(t_control *control)
 	}
 	pthread_mutex_destroy(&control->print_lock);
 	pthread_mutex_destroy(&control->check_lock);
-	pthread_mutex_destroy(&control->meal_lock);
 	free(curr);
 	free(control);
 	return (NULL);
 }
-	

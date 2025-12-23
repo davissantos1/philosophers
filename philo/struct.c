@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:55:11 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/22 18:12:00 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/22 22:01:53 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_philo	*create_philo(t_control *con, int number)
 	t_philo	*philo;
 
 	philo = malloc(sizeof(t_philo));
-	if(!philo)
+	if (!philo)
 		return (NULL);
 	philo = memset(philo, 0, sizeof(t_philo));
 	philo->num = number;
@@ -48,7 +48,6 @@ t_control	*init_control(char **av)
 	else
 		control->eating_times = -1;
 	pthread_mutex_init(&control->print_lock, NULL);
-	pthread_mutex_init(&control->meal_lock, NULL);
 	pthread_mutex_init(&control->check_lock, NULL);
 	return (control);
 }
@@ -69,10 +68,10 @@ t_philo	*init_philo(t_control *control)
 	curr->prev = head;
 	while (++index <= control->number_philo)
 	{
-			temp = curr;
-			curr = create_philo(control, index);
-			curr->prev = temp;
-			temp->next = curr;
+		temp = curr;
+		curr = create_philo(control, index);
+		curr->prev = temp;
+		temp->next = curr;
 	}
 	curr->next = head;
 	head->prev = curr;
