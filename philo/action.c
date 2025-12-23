@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 16:53:57 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/23 01:06:32 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/23 18:35:04 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	taking_fork(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->fork);
 		notify(philo, philo->control, TAKING_FORK);
-		usleep(philo->control->time_to_die);
+		usleep(philo->control->time_to_die * 1000);
 		pthread_mutex_unlock(&philo->fork);
 		return ;
 	}

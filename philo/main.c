@@ -6,11 +6,30 @@
 /*   By: dasimoes <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:58:07 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/09 11:05:18 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/23 18:48:30 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	init_simulation(t_control *con)
+{
+	t_philo		*cur;
+
+	cur = con->head;
+	con->start_time = get_time(con);
+	init_threads(cur, con);
+	while (cur)
+	{
+		if (pthread_join(cur->id, NULL))
+			con->error = "pthread_join error";
+		cur = cur->next;
+		if (cur == con->head)
+			break ;
+	}
+	if (pthread_join(con->checker, NULL))
+		con->error = "pthread_join error";
+}
 
 int	main(int ac, char **av)
 {
