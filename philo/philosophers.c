@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/23 18:56:19 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/23 21:59:08 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ static void	run_checker(t_philo *cur, t_control *con)
 			con->check = 1;
 		pthread_mutex_unlock(&cur->action_lock);
 		pthread_mutex_unlock(&con->check_lock);
+		pthread_mutex_lock(&cur->action_lock);
 		if (cur->action == DYING)
 			notify(cur, con, DYING);
+		pthread_mutex_unlock(&cur->action_lock);
 		usleep(100);
 		cur = cur->next;
 		if (cur == con->head)
