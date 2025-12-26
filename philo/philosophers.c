@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/26 15:16:33 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/26 15:27:58 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	*init_checker(void *control)
 	{
 		cur = con->head;
 		run_checker(cur, con);
-		usleep(1000);
+		usleep(2000);
 	}
 	return (NULL);
 }
