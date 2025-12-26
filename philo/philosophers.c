@@ -6,7 +6,7 @@
 /*   By: dasimoes <dasimoes@42sp.org.br>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 15:59:32 by dasimoes          #+#    #+#             */
-/*   Updated: 2025/12/23 21:59:08 by dasimoes         ###   ########.fr       */
+/*   Updated: 2025/12/26 15:16:33 by dasimoes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,11 @@ void	*act_philo(void *ptr)
 
 static void	run_checker(t_philo *cur, t_control *con)
 {
+	int	action_check;
+
 	while (cur && !con->check)
 	{
+		action_check = 0;
 		pthread_mutex_lock(&con->check_lock);
 		pthread_mutex_lock(&cur->action_lock);
 		if (cur->action == DYING || con->full_philo == con->number_philo)
@@ -73,9 +76,10 @@ static void	run_checker(t_philo *cur, t_control *con)
 		pthread_mutex_unlock(&cur->action_lock);
 		pthread_mutex_unlock(&con->check_lock);
 		pthread_mutex_lock(&cur->action_lock);
-		if (cur->action == DYING)
-			notify(cur, con, DYING);
+		action_check = cur->action;
 		pthread_mutex_unlock(&cur->action_lock);
+		if (action_check == DYING)
+			notify(cur, con, DYING);
 		usleep(100);
 		cur = cur->next;
 		if (cur == con->head)
